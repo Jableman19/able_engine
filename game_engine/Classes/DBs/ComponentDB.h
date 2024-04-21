@@ -62,7 +62,4 @@ namespace ComponentDB {
 		inline void SetLuaState(lua_State* state) {
 			L = state;
 		}
-
-
-		//Get and Set for component tables
 };

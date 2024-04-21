@@ -80,9 +80,6 @@ namespace AudioDB {
             if (res != CURLE_OK) {
                 std::cerr << "curl_easy_perform() failed: " << curl_easy_strerror(res) << std::endl;
             }
-            /* else {
-                 std::cout << "Response from server: " << response_data.str() << std::endl;
-             }*/
 
              // cleanup
             curl_easy_cleanup(curl);

@@ -10,11 +10,6 @@ namespace SceneAPI {
 		scene->nextScene = name;
 	}
 
-	/*void LoadInternal(std::string name) {
-		std::string path = "resources/scenes/" + name + ".scene";
-		scene->LoadScene(path, name, engineUtils, jsonDoc, L);
-	}*/
-
 	void DontDestroy(Actor actor) {
 		std::vector<Actor*> actors = ActorDB::actorMap[actor.actor_name];
 		for (int i = 0; i < actors.size(); i++) {

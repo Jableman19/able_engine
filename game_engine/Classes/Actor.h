@@ -20,137 +20,16 @@ public:
 	std::vector<luabridge::LuaRef> removedComponents;
 	std::map<std::string, std::shared_ptr<luabridge::LuaRef>> new_component_tables;
 	bool dontDestroy = false;
-	//bool turned = false;
-	////SDL view
-	//SDL_RendererFlip flip = SDL_FLIP_NONE;
-	//std::unordered_map<int, Actor*> collidingActors;
-	//SDL_Texture* targetTexture = nullptr;
-	//SDL_Texture* view_texture = nullptr;
-	//SDL_Texture* back_view_texture = nullptr;
-	//SDL_Texture* image_damage = nullptr;
-	//SDL_Texture* image_attack = nullptr;
-	//glm::vec2 position;
-	//
-	//float transform_scale_x = 1.0;
-	//float transform_scale_y = 1.0;
-	//float transform_rotation_degrees = 0.0;
-	//float view_pivot_offset_x = NAN;
-	//float view_pivot_offset_y = NAN;
-	//float width;
-	//float height;
-	//std::optional<int> render_order;
-	//glm::vec2 velocity;
-	//bool blocking;
-	//bool bouncing = false;
-	//bool spoke = false;
-	//std::string nearby_dialogue;
-	//std::string contact_dialogue;
-	//std::string view_image;
-	//std::string nearbyDialogueSFX = "";
-	//std::string back_view_image;
-	//std::string view_image_damage;
-	//std::string damageSFX = "";
-	//std::string view_image_attack;
-	//std::string stepSFX = "";
-
-	//float colliderWidth = 0;
-	//float colliderHeight = 0;
-
-	//float frameLastAttacked = -200;
-
-	//float triggerWidth = 0;
-	//float triggerHeight = 0;
 
 	int id = -1;
 
 	Actor(std::string name, int id) {
-		////load view texture
-		//if (view_image != "") {
-		//	this->view_image = view_image;
-		//	imageDB->addImage(view_image);
-		//	this->view_texture = imageDB->GetImage(view_image);
-		//}
-
-		//if(back_view_image != "") {
-		//	this->back_view_image = back_view_image;
-		//	imageDB->addImage(back_view_image);
-		//	this->back_view_texture = imageDB->GetImage(back_view_image);
-		//}
-
-		//if(view_image_damage != "") {
-		//	this->view_image_damage = view_image_damage;
-		//	imageDB->addImage(view_image_damage);
-		//	this->image_damage = imageDB->GetImage(view_image_damage);
-		//}
-
-		//if(view_image_attack != "") {
-		//	this->view_image_attack = view_image_attack;	
-		//	imageDB->addImage(view_image_attack);
-		//	this->image_attack = imageDB->GetImage(view_image_attack);
-		//}
-
-		//if(render_order.has_value()) {
-		//	this->render_order = render_order.value();
-		//}
-		//
 		actor_name = name;
-		//this->position = position;
-		//transform_scale_x = scale_x;
-		//transform_scale_y = scale_y;
-		//this->colliderWidth = colliderWidth;
-		//this->colliderHeight = colliderHeight;
-		//this->triggerWidth = triggerWidth;
-		//this->triggerHeight = triggerHeight;
-		//transform_rotation_degrees = rotation;
-		//this->nearbyDialogueSFX = nearbyDialogueSFX;
-		//this->damageSFX = damageSFX;
-		//this->stepSFX = stepSFX;
-		//int width, height;
-		////if xscale is negative, change flip	
-		//if (transform_scale_x < 0) {
-		//	flip = SDL_FLIP_HORIZONTAL;
-		//}
-		//SDL_QueryTexture(this->view_texture, NULL, NULL, &width, &height);
-		//if (!std::isnan(pivot_x)) {
-		//	this->view_pivot_offset_x = pivot_x;
-		//}
-		//else {
-		//	//half of view width
-		//	this->view_pivot_offset_x = std::round(float(width) / 2);
-		//}
-		//if (!std::isnan(pivot_y)) {
-		//	this->view_pivot_offset_y = pivot_y;
-		//}
-		//else {
-		//	this->view_pivot_offset_y = std::round(float(height) / 2);
-		//}
-		//this->width = width;
-		//this->height = height;
-		//this->velocity = velocity;
-		//this->blocking = blocking;
-		//this->nearby_dialogue = nearby_dialogue;
-		//this->contact_dialogue = contact_dialogue;
-		//this->view_image = view_image;
 		this->id = id;
-		//this->bouncing = bouncing;
 	}
 
 	Actor() {
 		actor_name = "";
-		/*position = glm::vec2(0,0);
-		transform_scale_x = 1.0;
-		transform_scale_y = 1.0;
-		transform_rotation_degrees = 0.0;
-		view_pivot_offset_x = NAN;
-		view_pivot_offset_y = NAN;
-		velocity = glm::vec2(0, 0);
-		blocking = false;
-		nearby_dialogue = "";
-		contact_dialogue = "";
-		view_image = "";
-		id = -1;
-		height = 0;
-		width = 0;*/
 	}
 
 	//GetName

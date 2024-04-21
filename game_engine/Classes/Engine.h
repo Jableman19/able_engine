@@ -339,26 +339,6 @@ class Engine{
 			if(jsonDoc.HasMember("game_title")){
 				this->game_title = jsonDoc["game_title"].GetString();
 			}
-			/*if(jsonDoc.HasMember("intro_image")){
-				auto& intro_image = jsonDoc["intro_image"];
-				for (rapidjson::SizeType i = 0; i < intro_image.Size(); i++) {
-					renderer.intro_images.push_back(intro_image[i].GetString());
-				}
-				renderer.imageDB->addImages(renderer.intro_images);
-			}
-			if(jsonDoc.HasMember("intro_text") && renderer.intro_images.size()){
-				auto& intro_text = jsonDoc["intro_text"];
-				for (rapidjson::SizeType i = 0; i < intro_text.Size(); i++) {
-					renderer.intro_text.push_back(intro_text[i].GetString());
-				}
-			}*/
-			/*if(jsonDoc.HasMember("font")){
-				renderer.textDB->LoadFont(jsonDoc["font"].GetString());
-			}
-			else if(renderer.intro_text.size()){
-				std::cout << "error: text render failed. No font configured";
-				exit(0);
-			}*/
 			if (jsonDoc.HasMember("initial_scene")) {
 				this->levelName = jsonDoc["initial_scene"].GetString();
 				this->levelPath += levelName + ".scene";
@@ -370,18 +350,6 @@ class Engine{
 			//renderer.player = &player;
 			//define a scene
 			this->scene.LoadScene(levelPath, levelName, engineUtils, jsonDoc, L);
-			//RenderScene(levelPath, levelName, engineUtils, jsonDoc, &hardcoded_actors);
-			//if (this->game_start_message != "") {
-			//	std::cout << this->game_start_message << "\n";
-			//}
-
-			//if no intro images, skip intro
-			/*if(!renderer.intro_images.size()){
-				renderer.phase = 1;
-			}*/
-
-			//this->player = Player(player_a, 3, 0);
-			//this->levelName = "";
 			Input::Init();
 			this->MainLoop();
 		}
@@ -399,7 +367,6 @@ class Engine{
 				}
 				//get time since last frame
 				float current_time = SDL_GetTicks() * .001;
-				//std::cout << "time of last frame: " << current_time - start_time << "s\n";
 				start_time = current_time;
 
 				//game loop
@@ -410,37 +377,6 @@ class Engine{
 				//LateUpdate
 				Input::LateUpdate();
 				scene.LateUpdate();
-				////handle collisions
-				//if(player.actor){
-				//	player.new_pos = player.actor->position;
-				//}
-				/*if (renderer.phase == 1) {
-					this->scene.npcCollision(&player, renderer.audioDB);
-				}*/
-				//render scene
-				//if player exists, set player_new_pos to player's current position
-				//scene.mapUpdate(&player, x_resolution, y_resolution, renderer);
-				//int gameOver = 0;
-				//if (renderer.phase == 1) {
-				//	if(player.actor){
-				//		gameOver = this->scene.checkNearby(&player, &levelName, &renderer, renderer.audioDB);
-				//	}
-				//	if(gameOver == 1) {
-				//		renderer.phase = 2;
-				//	}
-				//	else if (gameOver == -1) {
-				//		renderer.phase = 3;
-				//	}
-				//	if (gameOver == 2) {
-				//		levelPath = "resources/scenes/" + levelName + ".scene";
-				//		//clear posActors and hardcoded_actors and seenMap
-				//		scene.LoadScene(levelPath, levelName, engineUtils, jsonDoc, &this->player_a, renderer.imageDB, &player);
-				//		player.setActor(player_a);
-				//		continue;
-				//	}
-				//}
-				//scene.RenderActors(&renderer, &player, game_title);
-
 				EventBus::ProcessRequests();
 
 				if (WorldManager::rbs) {
@@ -450,68 +386,6 @@ class Engine{
 				if (endState == 1) {
 					exit(0);
 				}
-
-
-				//draw map
-				//this->scene.mapUpdate(&player, x_resolution, y_resolution);
-				//
-				////check for nearby interactions
-
-				////player stats
-				//std::cout << "health : " << player.getHealth() << ", score : " << player.getScore() << "\n";
-
-				////respond to nearby interactions
-				//if (gameOver == 1) {
-				//	std::cout << game_over_good_message;
-				//	exit(0);
-				//}
-				//else if (gameOver == -1) {
-				//	std::cout << game_over_bad_message;
-				//	exit(0);
-				//}
-
-				////handle user input
-				//glm::ivec2 new_pos = userInput();
-
-				////handle collisions
-				//this->scene.npcCollision(&player, new_pos);
 			}
 		}
-
-		//engine user input function
-		//returns new expected player pos before checking for collisions
-  //	glm::ivec2 userInput() {
-			//std::cout << "Please make a decision...\n";
-			//std::cout << "Your options are \"n\", \"e\", \"s\", \"w\", \"quit\"\n";
-
-			////handle input
-			//std::string input;
-			//std::cin >> input;
-
-			//glm::ivec2 new_pos = player.actor->position;
-
-			////switch on input!
-			//if (input.size() == 1) {
-			//	switch (input[0]) {
-			//	case 'n':
-			//		new_pos.y -= 1;
-			//		break;
-			//	case 'e':
-			//		new_pos.x += 1;
-			//		break;
-			//	case 's':
-			//		new_pos.y += 1;
-			//		break;
-			//	case 'w':
-			//		new_pos.x -= 1;
-			//		break;
-			//	}
-			//}
-			//else if (input == "quit") {
-			//	std::cout << game_over_bad_message;
-			//	exit(0);
-			//}
-
-			//return new_pos;
-		  //	}	
 };

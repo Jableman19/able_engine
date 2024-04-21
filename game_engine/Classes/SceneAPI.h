@@ -9,8 +9,6 @@ namespace SceneAPI {
 
 	void Load(std::string name);
 
-	//void LoadInternal(std::string name);
-
 	std::string GetCurrent();
 
 	void DontDestroy(Actor actor);
