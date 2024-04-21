@@ -1,1 +1,1 @@
-# A Miniature Game Engine
+An optimized game engine for OSX/Windows/Linux from the ground up with C++ as the base layer. This project is a fully functional 2D engine, with a lua scripting layer. It utilizes Box2d, SDL, LuaBridge, GLM, and the OpenAI API. It features an accessibility suite with auto-subtitling and colorblind modes
