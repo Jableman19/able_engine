@@ -7,6 +7,8 @@
 #include <unordered_map>
 #include <vector>
 #include "scancodes.h"
+#include "box2d/box2d.h"
+#include "renderer.h"
 
 enum INPUT_STATE { INPUT_STATE_UP, INPUT_STATE_JUST_BECAME_DOWN, INPUT_STATE_DOWN, INPUT_STATE_JUST_BECAME_UP };
 
@@ -81,6 +83,12 @@ public:
 	static glm::vec2 GetMousePosition() {
 		return mouse_position;
 	}
+
+	static b2Vec2 GetMousePositionWorld() {
+		glm::vec2 vec = Renderer::ScreenToWorld(mouse_position.x, mouse_position.y);
+		return b2Vec2(vec.x, vec.y);
+	}
+
 	static float GetMouseScrollDelta() {
 		return mouse_scroll_this_frame;
 	}

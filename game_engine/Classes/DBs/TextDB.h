@@ -16,7 +16,7 @@ namespace TextDB {
 	extern int windowHeight;
 
 	SDL_Surface* RenderText(Text* text);
-	void Draw(std::string text, float x, float y, std::string font_name, int font_size, int r, int g, int b, int a);
+	void Draw(std::string text, float x, float y, std::string font_name, int font_size, int r, int g, int b, int a, int o);
 	void DrawSubtitle(std::string text);
 	void LoadFont(const std::string& fontName, int font_size);
 	void LoadBuiltInFonts();

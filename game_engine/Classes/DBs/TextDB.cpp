@@ -21,14 +21,14 @@ namespace TextDB {
 		return TTF_RenderText_Solid(fonts[text->font_name], text->text.c_str(), fontColor);
 	}
 
-	void Draw(std::string text, float x, float y, std::string font_name, int font_size, int r, int g, int b, int a) {
+	void Draw(std::string text, float x, float y, std::string font_name, int font_size, int r, int g, int b, int a, int o) {
 		// Implementation...
 		Text* textObj = new Text(text, x, y, font_name, font_size, r, g, b, a);
 		LoadFont(font_name, font_size);
 		SDL_Surface* surface = RenderText(textObj);
 		SDL_Texture* SDLTXT = SDL_CreateTextureFromSurface(sdlRenderer, surface);
 		ImageDB::addTextImage(text, SDLTXT);
-		ImageDrawRequest textReq = { text, x, y, 0, 1.0f, 1.0f, 0.0f, 0.0f, r,g,b,a, 1 };
+		ImageDrawRequest textReq = { text, x, y, 0, 1.0f, 1.0f, 0.0f, 0.0f, r,g,b,a, o };
 		//add to render queue
 		ImageDB::renderQueue.push_back(textReq);
 	}

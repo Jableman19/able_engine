@@ -16,10 +16,6 @@
 
 class Scene {
 public:
-	//std::map<glm::vec2, std::vector<Actor*>, Vec2Comparator> colActors;
-	//std::map<glm::vec2, std::vector<Actor*>, Vec2Comparator> trigActors;
-	std::vector<Actor*> collidingActors;
-	std::vector<Actor*> triggeringActors;
 	std::vector<Actor*> newActors;
 	std::unordered_map<int, bool> seenMap;
 	std::string currentScene = "";
@@ -40,6 +36,10 @@ public:
 			std::string path = "resources/scenes/" + nextScene + ".scene";
 			EngineUtils engineUtils = EngineUtils();
 			rapidjson::Document jsonDoc;
+			WorldManager::rbs = false;
+			WorldManager::contactListener = false;
+			ActorDB::Clear();
+			//remove 
 			LoadScene(path, nextScene, engineUtils, jsonDoc, ComponentDB::L);
 		}
 		ActorDB::AddAllActors();
@@ -127,7 +127,7 @@ public:
 				ActorDB::actorMap[actor->actor_name].push_back(actor);
 			}
 			else {
-				delete actor;
+				//delete actor;
 			}
 		}
 		ActorDB::hardcoded_actors = newActors;

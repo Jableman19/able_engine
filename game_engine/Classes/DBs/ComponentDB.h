@@ -33,6 +33,7 @@ namespace ComponentDB {
 			//load lua file
 			if (luaL_dofile(L, luafile.c_str())) {
 				std:: cout << "problem with lua file " << filePath.stem().string();
+				std::cout << lua_tostring(L, -1) << std::endl;
 				exit(0);
 			}
 

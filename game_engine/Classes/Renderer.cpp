@@ -63,6 +63,11 @@ namespace Renderer {
 		camPos = glm::vec2(x, y);
 	}
 
+	glm::vec2 ScreenToWorld(float sX, float sY) {
+	    //100 pixels = 1 unit, consider zoom
+		return glm::vec2((sX - window_width / 2) / (100.0f * zoom_factor) + camPos.x, (sY - window_height / 2) / (100.0f * zoom_factor) + camPos.y);
+	}
+
 	float GetPositionX() {
 		return camPos.x;
 	}
@@ -96,22 +101,13 @@ namespace Renderer {
 		SDL_SetRenderDrawColor(sdlRenderer, clear_color_r, clear_color_g, clear_color_b, 255);
 	}
 
-	void start(SDL_Window** window, EngineUtils& engineUtils, rapidjson::Document& jsonDoc, bool rendering) {
-		//check resources/rendering.config for colors
-		if (rendering) {
-			if (jsonDoc.HasMember("clear_color_r")) {
-				clear_color_r = jsonDoc["clear_color_r"].GetInt();
-			}
-			if (jsonDoc.HasMember("clear_color_g")) {
-				clear_color_g = jsonDoc["clear_color_g"].GetInt();
-			}
-			if (jsonDoc.HasMember("clear_color_b")) {
-				clear_color_b = jsonDoc["clear_color_b"].GetInt();
-			}
-		}
+	void start(SDL_Window** window, int r, int g, int b) {
+		clear_color_b = b;
+		clear_color_g = g;
+		clear_color_r = r;
 
 		sdlRenderer = Helper::SDL_CreateRenderer498(*window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-		SDL_SetRenderDrawColor(sdlRenderer, clear_color_r, clear_color_g, clear_color_b, 255);
+		SDL_SetRenderDrawColor(sdlRenderer, r, g, b, 255);
 		SDL_RenderClear(sdlRenderer);
 		//start DBs
 		TextDB::sdlRenderer = sdlRenderer;

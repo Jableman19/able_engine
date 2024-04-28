@@ -15,6 +15,12 @@ namespace ActorDB {
 	inline std::vector<Actor*> actorsToRemove;
 	inline int global_ids = 0;
 
+	//Clear DB
+	inline void Clear() {
+		hardcoded_actors.clear();
+		actorMap.clear();
+	}
+
 
 	//Find actor by name return luaref to actor
 	inline luabridge::LuaRef Find(std::string name) {

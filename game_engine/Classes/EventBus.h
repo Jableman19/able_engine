@@ -23,6 +23,12 @@ namespace EventBus {
 	}
 
 
+	void reset() {
+		eventMap.clear();
+		eventRequests.clear();
+		eventRequestsToRemove.clear();
+	}
+
 	void Unsubscribe(std::string eventName, luabridge::LuaRef parent, luabridge::LuaRef callback) {
 		eventRequestsToRemove.push_back({ eventName, parent, callback });
 	}

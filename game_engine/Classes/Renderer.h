@@ -38,13 +38,14 @@ namespace Renderer {
     void renderImage(SDL_Texture* texture, int x, int y);
     void renderImage(SDL_Texture* texture);
     void SetPosition(float x, float y);
+    glm::vec2 ScreenToWorld(float x, float y);
     float GetPositionX();
     float GetPositionY();
     void SetZoom(float zoom);
     float GetZoom();
     int getEvents();
     void clear();
-    void start(SDL_Window** window, EngineUtils& engineUtils, rapidjson::Document& jsonDoc, bool rendering);
+    void start(SDL_Window** window,int r, int g, int b);
 
     // ... Add any other declarations for functions or variables that are part of the Renderer namespace ...
 };

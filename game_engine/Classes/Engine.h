@@ -41,13 +41,16 @@ class Engine{
 			levelPath = "resources/scenes/";
 			levelName = "";
 			game_title = "";
-			game_start_message = "";
-			game_over_good_message = "";
-			game_over_bad_message = "";
 
 			window = nullptr;
 			scene = Scene();
 			SceneAPI::scene = &scene;
+		}
+
+		//get dimensions of the window
+		static glm::vec2 GetDimensions() {
+			//use x_resolution and y_resolution to make glm vec2
+			return glm::vec2(Renderer::window_width, Renderer::window_height);
 		}
 
 		void start() {
@@ -101,11 +104,13 @@ class Engine{
 				    .addFunction("GetFrame", Application::GetFrame)
 				    .addFunction("Sleep", Application::Sleep)
 					.addFunction("OpenURL", Application::OpenURL)
+					.addFunction("GetDimensions", GetDimensions)
 				.endNamespace();
 
 			//GLM
 			luabridge::getGlobalNamespace(L)
 				.beginClass<glm::vec2>("vec2")
+				.addConstructor<void(*)(float, float)>()
 				.addProperty("x", &glm::vec2::x)
 				.addProperty("y", &glm::vec2::y)
 				.endClass();
@@ -117,6 +122,7 @@ class Engine{
 					.addFunction("GetKeyDown", Input::GetKeyDown)
 					.addFunction("GetKeyUp", Input::GetKeyUp)
 					.addFunction("GetMousePosition", Input::GetMousePosition)
+					.addFunction("GetMousePositionWorld", Input::GetMousePositionWorld)
 					.addFunction("GetMouseButtonDown", Input::GetMouseButtonDown)
 					.addFunction("GetMouseButtonUp", Input::GetMouseButtonUp)
 					.addFunction("GetMouseButton", Input::GetMouseButton)
@@ -155,6 +161,7 @@ class Engine{
 					.addFunction("GetZoom", &Renderer::GetZoom)
 					.addFunction("GetPositionX", &Renderer::GetPositionX)
 					.addFunction("GetPositionY", &Renderer::GetPositionY)
+					.addFunction("ScreenToWorld", &Renderer::ScreenToWorld)
 				.endNamespace();
 
 			//SCENE API
@@ -274,11 +281,14 @@ class Engine{
 				std::cout << "error: resources/ missing";
 				exit(0);
 			}
-			bool rendering = false;
+
+			//define rgb clear colors
+			int r = 0;
+			int g = 0;
+			int b = 0;
 			//Rendering Startup
 			//if rendering.config exists, override x_resolution and y_resolution
 			if (std::filesystem::exists("resources/rendering.config")) {
-				rendering = true;
 				engineUtils.ReadJsonFile("resources/rendering.config", jsonDoc);
 				if (jsonDoc.HasMember("x_resolution")) {
 					this->x_resolution = jsonDoc["x_resolution"].GetInt();
@@ -304,18 +314,17 @@ class Engine{
 				if (jsonDoc.HasMember("colorMode")) {
 					ImageDB::SetColorModeI(jsonDoc["colorMode"].GetInt());
 				}
+				if (jsonDoc.HasMember("clear_color_r")) {
+					r = jsonDoc["clear_color_r"].GetInt();
+				}
+				if (jsonDoc.HasMember("clear_color_g")) {
+					g = jsonDoc["clear_color_g"].GetInt();
+				}
+				if (jsonDoc.HasMember("clear_color_b")) {
+					b = jsonDoc["clear_color_b"].GetInt();
+				}
+				
 			}
-
-			Renderer::window_height = y_resolution;
-			Renderer::window_width = x_resolution;
-
-			window = Helper::SDL_CreateWindow498(game_title, 0, 40, x_resolution, y_resolution, SDL_WINDOW_SHOWN);
-
-			TextDB::LoadBuiltInFonts();
-			TextDB::windowWidth = x_resolution;
-			TextDB::windowHeight = y_resolution;
-
-			Renderer::start(&window, engineUtils, jsonDoc, rendering);
 
 			//check for game.config json in resources folder
 			if (!std::filesystem::exists("resources/game.config")) {
@@ -326,16 +335,9 @@ class Engine{
 			
 			//get game_start_message, game_over_good_message, and game_over_bad_message from game.config using rapidjson
 			//define a document
+			
+
 			engineUtils.ReadJsonFile("resources/game.config", jsonDoc);
-			if (jsonDoc.HasMember("game_start_message")) {
-				this->game_start_message = jsonDoc["game_start_message"].GetString();
-			}
-			if (jsonDoc.HasMember("game_over_good_message")) {
-				this->game_over_good_message = jsonDoc["game_over_good_message"].GetString();
-			}
-			if (jsonDoc.HasMember("game_over_bad_message")) {
-				this->game_over_bad_message = jsonDoc["game_over_bad_message"].GetString();
-			}
 			if(jsonDoc.HasMember("game_title")){
 				this->game_title = jsonDoc["game_title"].GetString();
 			}
@@ -347,6 +349,19 @@ class Engine{
 				std::cout << "error: initial_scene unspecified";
 				exit(0);
 			}
+			
+
+			Renderer::window_height = y_resolution;
+			Renderer::window_width = x_resolution;
+
+			window = Helper::SDL_CreateWindow498(game_title, 0, 40, x_resolution, y_resolution, SDL_WINDOW_SHOWN);
+
+			TextDB::LoadBuiltInFonts();
+			TextDB::windowWidth = x_resolution;
+			TextDB::windowHeight = y_resolution;
+
+			Renderer::start(&window, r,g,b);
+
 			//renderer.player = &player;
 			//define a scene
 			this->scene.LoadScene(levelPath, levelName, engineUtils, jsonDoc, L);
@@ -373,6 +388,9 @@ class Engine{
 				Renderer::clear();
 				//Update
 				int endState = Renderer::getEvents();
+				if (scene.nextScene != "") {
+					EventBus::reset();
+				}
 				scene.Update();
 				//LateUpdate
 				Input::LateUpdate();
